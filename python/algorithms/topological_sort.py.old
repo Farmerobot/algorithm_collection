@@ -1,0 +1,108 @@
+import numpy as np
+
+adj = [
+	[],
+	[2, 6],
+	[2, 3],
+	[4],
+	[9, 5],
+	[1],
+	[7, 8],
+	[],
+	[7],
+	[]
+]
+
+dag = [
+	[],
+	[],
+	[3],
+	[1],
+	[0,1],
+	[0,2],
+]
+
+dag1 = [
+	[6],
+	[6,2,5],
+	[3],
+	[4],
+	[9,5],
+	[],
+	[7,8],
+	[],
+	[7],
+	[],
+]
+
+"""adj = [
+	[1, 6],
+	[6, 7],
+	[6, 8],
+	[7, 8],
+	[1, 2],
+	[2, 2],
+	[2, 3],
+	[3, 4],
+	[4, 9],
+	[4, 5],
+	[5, 1],
+]
+
+n = np.amax(adj)
+mat = np.zeros((n+1,n+1))
+
+for x in adj:
+	mat[x[0]-1][x[1]] = 1"""
+
+
+
+def bfs(start):
+	global adj
+	 
+	visited = [False] * len(adj)
+	queue = []
+	queue.append(start)
+	visited[start] = True
+	
+	while (len(queue) > 0):
+		vertex = queue.pop(0)
+		process(vertex)
+		for neighbour in adj[vertex]:
+			if not visited[neighbour]:
+				visited[neighbour] = True
+				queue.append(neighbour)
+
+visited = [False] * len(adj)
+topological_stack = []
+
+def process(n):
+	global topological_stack
+	topological_stack.append(n)
+	return
+	print(n)
+	
+def dfs(vertex):
+	global dag, visited
+	
+	if visited[vertex]:
+		return
+		
+	visited[vertex] = True
+	for neighbour in dag[vertex]:
+		if not visited[neighbour]:
+			dfs(neighbour)
+	process(vertex)
+
+def topological_sort(adj_list):
+	no_incoming = [False] * len(adj_list)
+	for x in adj_list:
+		for y in x:
+			no_incoming[y] = True
+	for i, v in enumerate(no_incoming):
+		if not v:
+			dfs(i)
+
+topological_sort(dag)
+
+print(topological_stack[::-1])
